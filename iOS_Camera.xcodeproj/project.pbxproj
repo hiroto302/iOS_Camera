@@ -13,6 +13,7 @@
 		A7EDCBB42BA5B941000942FD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7EDCBB32BA5B941000942FD /* Preview Assets.xcassets */; };
 		A7EDCBBB2BA5BBB1000942FD /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EDCBBA2BA5BBB1000942FD /* CameraService.swift */; };
 		A7EDCBBE2BA5C269000942FD /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EDCBBD2BA5C269000942FD /* CameraView.swift */; };
+		A7EDCBC02BA5C664000942FD /* CustomCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EDCBBF2BA5C664000942FD /* CustomCameraView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		A7EDCBB32BA5B941000942FD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A7EDCBBA2BA5BBB1000942FD /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
 		A7EDCBBD2BA5C269000942FD /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		A7EDCBBF2BA5C664000942FD /* CustomCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCameraView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				A7EDCBB22BA5B941000942FD /* Preview Content */,
 				A7EDCBBA2BA5BBB1000942FD /* CameraService.swift */,
 				A7EDCBBD2BA5C269000942FD /* CameraView.swift */,
+				A7EDCBBF2BA5C664000942FD /* CustomCameraView.swift */,
 			);
 			path = iOS_Camera;
 			sourceTree = "<group>";
@@ -145,6 +148,7 @@
 			files = (
 				A7EDCBAF2BA5B93E000942FD /* ContentView.swift in Sources */,
 				A7EDCBAD2BA5B93E000942FD /* iOS_CameraApp.swift in Sources */,
+				A7EDCBC02BA5C664000942FD /* CustomCameraView.swift in Sources */,
 				A7EDCBBB2BA5BBB1000942FD /* CameraService.swift in Sources */,
 				A7EDCBBE2BA5C269000942FD /* CameraView.swift in Sources */,
 			);
