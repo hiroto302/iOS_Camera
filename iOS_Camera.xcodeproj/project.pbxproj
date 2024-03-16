@@ -14,6 +14,7 @@
 		A7EDCBBB2BA5BBB1000942FD /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EDCBBA2BA5BBB1000942FD /* CameraService.swift */; };
 		A7EDCBBE2BA5C269000942FD /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EDCBBD2BA5C269000942FD /* CameraView.swift */; };
 		A7EDCBC02BA5C664000942FD /* CustomCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EDCBBF2BA5C664000942FD /* CustomCameraView.swift */; };
+		A7EDCBC22BA5C903000942FD /*  OutputPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EDCBC12BA5C903000942FD /*  OutputPhotoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		A7EDCBBA2BA5BBB1000942FD /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
 		A7EDCBBD2BA5C269000942FD /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		A7EDCBBF2BA5C664000942FD /* CustomCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCameraView.swift; sourceTree = "<group>"; };
+		A7EDCBC12BA5C903000942FD /*  OutputPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " OutputPhotoView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				A7EDCBBA2BA5BBB1000942FD /* CameraService.swift */,
 				A7EDCBBD2BA5C269000942FD /* CameraView.swift */,
 				A7EDCBBF2BA5C664000942FD /* CustomCameraView.swift */,
+				A7EDCBC12BA5C903000942FD /*  OutputPhotoView.swift */,
 			);
 			path = iOS_Camera;
 			sourceTree = "<group>";
@@ -151,6 +154,7 @@
 				A7EDCBC02BA5C664000942FD /* CustomCameraView.swift in Sources */,
 				A7EDCBBB2BA5BBB1000942FD /* CameraService.swift in Sources */,
 				A7EDCBBE2BA5C269000942FD /* CameraView.swift in Sources */,
+				A7EDCBC22BA5C903000942FD /*  OutputPhotoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
