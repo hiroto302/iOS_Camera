@@ -16,6 +16,12 @@ struct OutputPhotoView: View {
                     .resizable()
                     .scaledToFill()
                     .ignoresSafeArea()
+                    .onAppear {
+                        monochromeImage = image
+                        // カメラロールへの保存処理
+                        // TODO: 許可されなかった時のエラー対応・アプリ起動時に使用許可要求を検討
+                        UIImageWriteToSavedPhotosAlbum(monochromeImage!, nil, nil, nil)
+                    }
             } else {
                 Color(UIColor.systemBackground)
             }
