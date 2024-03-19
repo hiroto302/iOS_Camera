@@ -51,6 +51,20 @@ struct CustomCameraView: View {
                             .padding(.bottom)
                     })
                     Spacer()
+                    // 前後カメラの切り替え
+                    Button(action: {
+                        cameraService.switchCameraPosition { error in
+                            if let error = error {
+                                print(error)
+                            }
+                        }
+                    }, label: {
+                        Image(systemName: "camera.rotate.fill")
+                            .font(.system(size: 40))
+                            .foregroundColor(.white)
+                            .padding(.bottom)
+                    })
+                    Spacer()
                 }
                 .padding()
 
