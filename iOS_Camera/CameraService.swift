@@ -103,6 +103,24 @@ class CameraService {
         }
     }
 
+    /* カメラの映像の反転 on/off 切り替え
+     connection.automaticallyAdjustsVideoMirroring は常に false でよい。
+     前後(フロント・リア)のカメラ切り替え が実行された時、整合性のために自動で connection.isVideoMirrored = false となる。
+     フロントカメラ .isVideoMirrored = false の時、出力画像 反転なし
+     リアカメラ    .isVideoMirrored = false の時、出力画像 反転あり
+     */
+    func switchMirrorView() {
+        session?.beginConfiguration()
+        if let connection = output.connection(with: .video) {
+            if connection.isVideoMirroringSupported {
+                connection.isVideoMirrored.toggle()
+            } else {
+                connection.isVideoMirrored = !connection.isVideoMirrored
+            }
+        }
+        session?.commitConfiguration()
+    }
+
     // フラッシュモードの切り替え 取得
     func getSwitchedFlashMode(flashMode: AVCaptureDevice.FlashMode) -> AVCaptureDevice.FlashMode {
         let switchedFlashMode: AVCaptureDevice.FlashMode = flashMode == .off ? .on : .off

@@ -82,6 +82,22 @@ struct CustomCameraView: View {
                             .padding(.bottom)
                     })
                     Spacer()
+                    // カメラの表示映像の反転切り替え
+                    Button(action: {
+                        cameraService.switchMirrorView()
+                    }, label: {
+                        ZStack{
+                            Image(systemName: "photo.artframe")
+                                .font(.system(size: 40))
+                                .foregroundColor(.white)
+                                .opacity(0.5)
+                                .padding(.bottom)
+                                .overlay(Image(systemName: "arrow.triangle.2.circlepath")
+                                    .font(.system(size: 30))
+                                    .foregroundColor(.white)
+                                    .padding(.bottom))
+                        }
+                    })
                 }
                 .padding()
 
