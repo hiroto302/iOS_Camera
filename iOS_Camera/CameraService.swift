@@ -3,6 +3,7 @@ import AVFoundation
 
 // カメラ機能を提供するクラス
 class CameraService {
+
     var session: AVCaptureSession?
     let output = AVCapturePhotoOutput()
     let previewLayer = AVCaptureVideoPreviewLayer()
@@ -67,9 +68,21 @@ class CameraService {
         }
     }
 
+    func getSwitchedFlashMode(flashMode: AVCaptureDevice.FlashMode) -> AVCaptureDevice.FlashMode {
+        let switchedFlashMode: AVCaptureDevice.FlashMode = flashMode == .off ? .on : .off
+        return switchedFlashMode
+    }
+
     // カメラ撮影
-    // TODO: settings をデフォルト以外にも対応 (フラッシュとか)
-    func capturePhoto(with settings: AVCapturePhotoSettings = AVCapturePhotoSettings()) {
+    func capturePhoto(with settings: AVCapturePhotoSettings = AVCapturePhotoSettings(), flashMode: AVCaptureDevice.FlashMode) {
+        
+        // フラッシュモードに対応している場合は設定を適用する
+        if output.supportedFlashModes.contains(.on) {
+            settings.flashMode = flashMode
+        } else {
+            settings.flashMode = .off
+        }
+
         output.capturePhoto(with: settings, delegate: delegate!)
     }
 }

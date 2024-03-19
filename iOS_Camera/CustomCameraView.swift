@@ -1,14 +1,19 @@
 import SwiftUI
+import AVFoundation
 
 // CameraView をカスタマイズして UI表示するための SwiftUIView
 struct CustomCameraView: View {
 
+
     let cameraService = CameraService()
+    // カメラのフラッシュモード設定
+    @State var flashMode: AVCaptureDevice.FlashMode = .off
+
     // 撮影された画像を保持するための変数
     @State var capturedImage: UIImage?
     // 出力画面に移動するか
     @State private var isOutputPhotoViewPresented = false
-    
+
     // TODO : カウントダウンタイマーの Strcut 作成検討
     // カウントダウンタイマー関連変数群
     @State private var isCountDown = false
@@ -35,6 +40,20 @@ struct CustomCameraView: View {
             }
             // 撮影ボタンを中央下部に配置
             VStack {
+                // 撮影時のフラッシュ切り替え
+                HStack{
+                    Button(action: {
+                        flashMode = cameraService.getSwitchedFlashMode(flashMode: flashMode)
+                    }, label: {
+                        Image(systemName: flashMode == .on ? "flashlight.on.fill" : "flashlight.slash")
+                            .font(.system(size: 40))
+                            .foregroundColor(.white)
+                            .padding(.bottom)
+                    })
+                    Spacer()
+                }
+                .padding()
+
                 Spacer()
                 if isCountDown {
                     ZStack{
@@ -75,7 +94,7 @@ struct CustomCameraView: View {
             } else {
                 countDownTime = 3
                 isCountDown = false
-                cameraService.capturePhoto()
+                cameraService.capturePhoto(flashMode: flashMode)
             }
         }
     }
