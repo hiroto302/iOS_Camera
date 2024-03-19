@@ -89,6 +89,19 @@ class CameraService {
         setupCamera(settingDevice: device, completion: completion)
     }
 
+    // カメラのフォーカス切り替え
+    // (現時点では、.locked の有用性がないため、.autoFocus と .continuousAutoFocus 設定の切り替えを実装)
+    func switchCameraFocusMode(completion: @escaping (Error?) -> ()) {
+        do {
+            try device!.lockForConfiguration()
+            device!.focusMode = device?.focusMode == .continuousAutoFocus ? .autoFocus : .continuousAutoFocus
+            device!.unlockForConfiguration()
+            // 切り替え後、再度セットアップ実行
+            setupCamera(settingDevice: device, completion: completion)
+        } catch {
+            print(completion)
+        }
+    }
 
     // フラッシュモードの切り替え 取得
     func getSwitchedFlashMode(flashMode: AVCaptureDevice.FlashMode) -> AVCaptureDevice.FlashMode {

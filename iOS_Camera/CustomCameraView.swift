@@ -8,6 +8,8 @@ struct CustomCameraView: View {
     let cameraService = CameraService()
     // カメラのフラッシュモード設定
     @State var flashMode: AVCaptureDevice.FlashMode = .off
+    // カメラのフォーカスモード設定
+    @State var isContinuousAutoFocus = true
 
     // 撮影された画像を保持するための変数
     @State var capturedImage: UIImage?
@@ -60,6 +62,21 @@ struct CustomCameraView: View {
                         }
                     }, label: {
                         Image(systemName: "camera.rotate.fill")
+                            .font(.system(size: 40))
+                            .foregroundColor(.white)
+                            .padding(.bottom)
+                    })
+                    Spacer()
+                    // フォーカス切り替え
+                    Button(action: {
+                        cameraService.switchCameraFocusMode { error in
+                            if let error = error {
+                                print(error)
+                            }
+                        }
+                        isContinuousAutoFocus.toggle()
+                    }, label: {
+                        Image(systemName: isContinuousAutoFocus == true ? "camera.metering.partial" : "camera.metering.none")
                             .font(.system(size: 40))
                             .foregroundColor(.white)
                             .padding(.bottom)
