@@ -4,7 +4,6 @@ import AVFoundation
 // CameraView をカスタマイズして UI表示するための SwiftUIView
 struct CustomCameraView: View {
 
-
     let cameraService = CameraService()
     // カメラのフラッシュモード設定
     @State var flashMode: AVCaptureDevice.FlashMode = .off
@@ -16,10 +15,8 @@ struct CustomCameraView: View {
     // 出力画面に移動するか
     @State private var isOutputPhotoViewPresented = false
 
-    // TODO : カウントダウンタイマーの Strcut 作成検討
-    // カウントダウンタイマー関連変数群
-    @State private var isCountDown = false
-    @State private var countDownTime = 3
+    // カウントダウンタイマー 変数
+    @ObservedObject var countDownTimer = CountDownTimer()
 
     var body: some View {
         ZStack {
@@ -102,21 +99,24 @@ struct CustomCameraView: View {
                 .padding()
 
                 Spacer()
-                if isCountDown {
+                if countDownTimer.isCounting {
                     ZStack{
                         Circle()
                             .foregroundStyle(.white)
                             .frame(width: 72, height: 72)
-                        Text("\(countDownTime)")
+                        Text("\(countDownTimer.time)")
                             .foregroundStyle(.blue)
                             .font(.largeTitle)
                     }.padding(.bottom)
                 } else {
-                    // 撮影ボタンが押されたときに写真をキャプチャ
+                    // 撮影ボタン
                     Button(action: {
-                        // TODO: 現在の実装では countDownTimer の中で　cameraService.capturePhoto()実行されている。 Countdownが成功・失敗時の処理を分けるか、一度押されたら再度押せないようにする必要がある
-                        // TODO: カウントダウンによるタイマー処理の実装を再検討
-                        countDownTimer()
+                        // 3秒のカウントダウン開始
+                        countDownTimer.start(settingTime: 3)
+                        // カウントダウン完了後、撮影
+                        countDownTimer.onCompletion = {
+                            cameraService.capturePhoto(flashMode: flashMode)
+                        }
                     }, label: {
                         Image(systemName: "camera.fill")
                             .font(.system(size: 72))
@@ -130,22 +130,8 @@ struct CustomCameraView: View {
             OutputPhotoView(capturedImage: $capturedImage)
         })
     }
-
-    // HACK: 再起処理によるカウントダウンタイマー実装になっている
-    func countDownTimer() {
-        isCountDown = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            if countDownTime > 1 {
-                countDownTime -= 1
-                countDownTimer()
-            } else {
-                countDownTime = 3
-                isCountDown = false
-                cameraService.capturePhoto(flashMode: flashMode)
-            }
-        }
-    }
 }
+
 
 #Preview {
     CustomCameraView()
