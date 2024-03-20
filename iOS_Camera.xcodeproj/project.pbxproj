@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A75318BE2BAB0920000DCB20 /* CountDownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75318BD2BAB0920000DCB20 /* CountDownTimer.swift */; };
 		A75318C12BAB331A000DCB20 /* MonochromeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75318C02BAB331A000DCB20 /* MonochromeImage.swift */; };
+		A75318C32BAB3A3C000DCB20 /* CameraAppDocumentsDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75318C22BAB3A3C000DCB20 /* CameraAppDocumentsDirectory.swift */; };
 		A7EDCBAD2BA5B93E000942FD /* iOS_CameraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EDCBAC2BA5B93E000942FD /* iOS_CameraApp.swift */; };
 		A7EDCBAF2BA5B93E000942FD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EDCBAE2BA5B93E000942FD /* ContentView.swift */; };
 		A7EDCBB12BA5B941000942FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7EDCBB02BA5B941000942FD /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 /* Begin PBXFileReference section */
 		A75318BD2BAB0920000DCB20 /* CountDownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownTimer.swift; sourceTree = "<group>"; };
 		A75318C02BAB331A000DCB20 /* MonochromeImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonochromeImage.swift; sourceTree = "<group>"; };
+		A75318C22BAB3A3C000DCB20 /* CameraAppDocumentsDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAppDocumentsDirectory.swift; sourceTree = "<group>"; };
 		A7EDCBA92BA5B93E000942FD /* iOS_Camera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS_Camera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7EDCBAC2BA5B93E000942FD /* iOS_CameraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_CameraApp.swift; sourceTree = "<group>"; };
 		A7EDCBAE2BA5B93E000942FD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -49,6 +51,7 @@
 			children = (
 				A75318BD2BAB0920000DCB20 /* CountDownTimer.swift */,
 				A75318C02BAB331A000DCB20 /* MonochromeImage.swift */,
+				A75318C22BAB3A3C000DCB20 /* CameraAppDocumentsDirectory.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -168,6 +171,7 @@
 				A75318C12BAB331A000DCB20 /* MonochromeImage.swift in Sources */,
 				A7EDCBAD2BA5B93E000942FD /* iOS_CameraApp.swift in Sources */,
 				A7EDCBC02BA5C664000942FD /* CustomCameraView.swift in Sources */,
+				A75318C32BAB3A3C000DCB20 /* CameraAppDocumentsDirectory.swift in Sources */,
 				A7EDCBBB2BA5BBB1000942FD /* CameraService.swift in Sources */,
 				A7EDCBBE2BA5C269000942FD /* CameraView.swift in Sources */,
 				A7EDCBC22BA5C903000942FD /*  OutputPhotoView.swift in Sources */,
