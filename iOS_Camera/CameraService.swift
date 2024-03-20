@@ -69,7 +69,9 @@ class CameraService {
                 previewLayer.session = session
 
                 // セッション開始
-                session.startRunning()
+                DispatchQueue.global(qos: .background).async {
+                    session.startRunning()
+                }
                 // 各変数を保持
                 self.session = session
                 self.device = device
