@@ -8,6 +8,8 @@ struct OutputPhotoView: View {
     // モノクロームに加工した画像を保持する変数
     @State private var monochromeImage: UIImage?
     let cameraAppDocumentDirectory = CameraAppDocumentsDirectory()
+    // アプリの Document ディレクトリに保存するか確認アラート フラグ
+    @State var isShownSaveAlert = false
 
     var body: some View {
         ZStack {
@@ -46,7 +48,8 @@ struct OutputPhotoView: View {
                     Spacer()
                     // モノクロ画像をドキュメントディレクトリに保存
                     Button(action: {
-                        cameraAppDocumentDirectory.saveImageToDocumentsDirectory(monochromeImage!)
+                        isShownSaveAlert = true
+
                     }, label: {
                         Image(systemName: "square.and.arrow.down")
                             .font(.largeTitle)
@@ -55,6 +58,15 @@ struct OutputPhotoView: View {
                             .foregroundColor(.white)
                             .clipShape(Circle())
                     })
+                    .alert("Document ディレクトリに画像を保存しますか？", isPresented: $isShownSaveAlert) {
+                        Button("保存する", role: .destructive){
+                            cameraAppDocumentDirectory.saveImageToDocumentsDirectory(monochromeImage!)
+                        }
+                        Button("キャンセル", role: .cancel) {
+                        }
+                    } message: {
+                        Text("アプリ内に保存されます")
+                    }
                 }
                 .padding()
             }
