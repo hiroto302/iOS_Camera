@@ -97,6 +97,8 @@ struct CustomCameraView: View {
                     })
                 }
                 .padding()
+                .disabled(countDownTimer.isCounting)
+                .opacity(countDownTimer.isCounting ? 0.0 : 1.0)
 
                 Spacer()
                 if countDownTimer.isCounting {
