@@ -39,98 +39,120 @@ struct CustomCameraView: View {
             }
             // 撮影ボタンを中央下部に配置
             VStack {
-                // 撮影時のフラッシュ切り替え
                 HStack{
-                    Button(action: {
+                    // 撮影時のフラッシュ切り替え
+                    SettingCameraButton(action: {
                         flashMode = cameraService.getSwitchedFlashMode(flashMode: flashMode)
-                    }, label: {
-                        Image(systemName: flashMode == .on ? "flashlight.on.fill" : "flashlight.slash")
-                            .font(.system(size: 40))
-                            .foregroundColor(.white)
-                            .padding(.bottom)
-                    })
+                    }, imageName: flashMode == .on ? "flashlight.on.fill" : "flashlight.slash")
                     Spacer()
                     // 前後カメラの切り替え
-                    Button(action: {
+                    SettingCameraButton(action: {
                         cameraService.switchCameraPosition { error in
                             if let error = error {
                                 print(error)
                             }
                         }
-                    }, label: {
-                        Image(systemName: "camera.rotate.fill")
-                            .font(.system(size: 40))
-                            .foregroundColor(.white)
-                            .padding(.bottom)
-                    })
+                    }, imageName: "camera.rotate.fill")
                     Spacer()
                     // フォーカス切り替え
-                    Button(action: {
+                    SettingCameraButton(action: {
                         cameraService.switchCameraFocusMode { error in
                             if let error = error {
                                 print(error)
                             }
                         }
                         isContinuousAutoFocus.toggle()
-                    }, label: {
-                        Image(systemName: isContinuousAutoFocus == true ? "camera.metering.partial" : "camera.metering.none")
-                            .font(.system(size: 40))
-                            .foregroundColor(.white)
-                            .padding(.bottom)
-                    })
+                    }, imageName: isContinuousAutoFocus == true ? "camera.metering.partial" : "camera.metering.none")
                     Spacer()
-                    // カメラの表示映像の反転切り替え
-                    Button(action: {
-                        cameraService.switchMirrorView()
-                    }, label: {
-                        ZStack{
-                            Image(systemName: "photo.artframe")
-                                .font(.system(size: 40))
-                                .foregroundColor(.white)
-                                .opacity(0.5)
-                                .padding(.bottom)
-                                .overlay(Image(systemName: "arrow.triangle.2.circlepath")
-                                    .font(.system(size: 30))
-                                    .foregroundColor(.white)
-                                    .padding(.bottom))
-                        }
-                    })
+                    // カメラの表示映像の反転切り替え (出力画像の左右反転)
+                    OutputImageMirrorButton(cameraService: cameraService)
                 }
                 .padding()
+                // シャッターボタンを押してカウントダウン中、設定変更 無効
                 .disabled(countDownTimer.isCounting)
                 .opacity(countDownTimer.isCounting ? 0.0 : 1.0)
-
-                Spacer()
-                if countDownTimer.isCounting {
-                    ZStack{
-                        Circle()
-                            .foregroundStyle(.white)
-                            .frame(width: 72, height: 72)
-                        Text("\(countDownTimer.time)")
-                            .foregroundStyle(.blue)
-                            .font(.largeTitle)
-                    }.padding(.bottom)
-                } else {
-                    // 撮影ボタン
-                    Button(action: {
-                        // 3秒のカウントダウン開始
-                        countDownTimer.start(settingTime: 3)
-                        // カウントダウン完了後、撮影
-                        countDownTimer.onCompletion = {
-                            cameraService.capturePhoto(flashMode: flashMode)
-                        }
-                    }, label: {
-                        Image(systemName: "camera.fill")
-                            .font(.system(size: 72))
-                            .foregroundColor(.white)
-                            .padding(.bottom)
-                    })
-                }
+            Spacer()
+                ShutterButton(countDownTimer: countDownTimer, cameraService: cameraService, flashMode: $flashMode)
         }
         // OutputPhotoView へ遷移
         }.sheet(isPresented: $isOutputPhotoViewPresented, content: {
             OutputPhotoView(capturedImage: $capturedImage)
         })
+    }
+}
+
+// 各カメラ設定ボタン
+struct SettingCameraButton: View {
+    var action: () -> Void
+    var imageName: String
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: "\(imageName)")
+                .font(.system(size: 40))
+                .foregroundColor(.white)
+                .padding(.bottom)
+        }
+    }
+}
+
+// カメラの表示映像の反転切り替えボタン
+struct OutputImageMirrorButton: View {
+    @State var cameraService: CameraService
+    var body: some View {
+        Button(action: {
+            cameraService.switchMirrorView()
+        }, label: {
+            Image(systemName: "photo.artframe")
+                .font(.system(size: 40))
+                .foregroundColor(.white)
+                .opacity(0.5)
+                .padding(.bottom)
+                .overlay(Image(systemName: "arrow.triangle.2.circlepath")
+                    .font(.system(size: 30))
+                    .foregroundColor(.white)
+                    .padding(.bottom))
+        })
+    }
+}
+
+// シャッターボタン
+struct ShutterButton: View {
+
+    @ObservedObject var countDownTimer: CountDownTimer
+    @State var cameraService: CameraService
+    @Binding var flashMode: AVCaptureDevice.FlashMode
+
+    var body: some View {
+        if countDownTimer.isCounting {
+        ZStack{
+            Circle()
+                .foregroundStyle(.white)
+                .frame(width: 72, height: 72)
+            Text("\(countDownTimer.time)")
+                .foregroundStyle(.blue)
+                .font(.largeTitle)
+            }.padding(.bottom)
+        } else {
+            // 撮影ボタン
+            Button(action: {
+                // 3秒のカウントダウン開始
+                countDownTimer.start(settingTime: 3)
+                // カウントダウン完了後、撮影
+                countDownTimer.onCompletion = {
+                    cameraService.capturePhoto(flashMode: flashMode)
+                }
+            }, label: {
+                Image(systemName: "circle")
+                    .font(.system(size: 72))
+                    .foregroundColor(.white)
+                    .padding(.bottom)
+                    .overlay(Image(systemName: "circle.fill")
+                        .font(.system(size: 50))
+                        .foregroundColor(.white)
+                        .padding(.bottom))
+            })
+        }
     }
 }
 
