@@ -64,6 +64,16 @@ class CameraService {
                     session.addOutput(output)
                 }
 
+                /* Portrait Matte 対応
+                if output.isDepthDataDeliverySupported {
+                    session.sessionPreset = .photo
+                    // 下記を true にする必要がある
+                    output.isDepthDataDeliveryEnabled = true
+                    output.isPortraitEffectsMatteDeliveryEnabled = output.isPortraitEffectsMatteDeliverySupported
+                    output.enabledSemanticSegmentationMatteTypes = output.availableSemanticSegmentationMatteTypes
+                }
+                 */
+
                 // PreviewLayer を Session に追加
                 previewLayer.videoGravity = .resizeAspectFill
                 previewLayer.session = session
@@ -139,6 +149,24 @@ class CameraService {
             settings.flashMode = .off
         }
 
+        /* Portrait Matte 対応
+         if self.output.isDepthDataDeliverySupported {
+             settings.isPortraitEffectsMatteDeliveryEnabled = true
+             settings.isDepthDataDeliveryEnabled = true
+             settings.embedsDepthDataInPhoto = true
+             settings.embedsPortraitEffectsMatteInPhoto = true
+         }
+        */
+
         output.capturePhoto(with: settings, delegate: delegate!)
     }
+
+    /* Portrait Matte 対応
+    func setDeviceForPortraitMatte() -> AVCaptureDevice
+    {
+        // 下記のどちらかのデバイスが対応している
+        return AVCaptureDevice.default(.builtInDualWideCamera, for: .video, position: .back)!
+       return settingDevice = AVCaptureDevice.default(.builtInTrueDepthCamera, for: .video, position: .front)!
+    }
+     */
 }

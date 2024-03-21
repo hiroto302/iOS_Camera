@@ -31,6 +31,14 @@ struct CustomCameraView: View {
                     // 撮影した写真からデータを取得し、UIImageに変換
                     if let data = photo.fileDataRepresentation() {
                         capturedImage = UIImage(data: data)
+
+                        /* PortraitEffectMatte 対応
+                        if (photo.portraitEffectsMatte != nil) {
+                            let resolvedSettings = photo.resolvedSettings
+                            // portraitEffectsMatte を利用した処理
+                        }
+                         */
+
                         // 撮影成功後 OutputPhotoView へ遷移
                         isOutputPhotoViewPresented.toggle()
                     } else {
