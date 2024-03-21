@@ -17,6 +17,9 @@ struct CustomCameraView: View {
 
     // カウントダウンタイマー 変数
     @ObservedObject var countDownTimer = CountDownTimer()
+    // 設定ボタン押した時に出現するメッセージ変数
+    @State var isShowingSettingMessage: Bool = false
+    @State var settingMessage: String = ""
 
     var body: some View {
         ZStack {
@@ -37,6 +40,7 @@ struct CustomCameraView: View {
                     print(err.localizedDescription)
                 }
             }
+
             // 撮影ボタンを中央下部に配置
             VStack {
                 HStack{
@@ -65,17 +69,21 @@ struct CustomCameraView: View {
                     }, imageName: isContinuousAutoFocus == true ? "camera.metering.partial" : "camera.metering.none")
                     Spacer()
                     // カメラの表示映像の反転切り替え (出力画像の左右反転)
-                    OutputImageMirrorButton(cameraService: cameraService)
+                    OutputImageMirrorButton(cameraService: cameraService, isShowingSettingMessage: $isShowingSettingMessage, settingMessage: $settingMessage)
                 }
                 .padding()
                 // シャッターボタンを押してカウントダウン中、設定変更 無効
                 .disabled(countDownTimer.isCounting)
                 .opacity(countDownTimer.isCounting ? 0.0 : 1.0)
-            Spacer()
+                // カメラ設定ボタンが押された時、出現するメッセージ
+                PopupSettingMessageView(isShowingSettingMessage: $isShowingSettingMessage, settingMessage: $settingMessage)
+                Spacer()
+                // シャッターボタン
                 ShutterButton(countDownTimer: countDownTimer, cameraService: cameraService, flashMode: $flashMode)
+            }
         }
         // OutputPhotoView へ遷移
-        }.sheet(isPresented: $isOutputPhotoViewPresented, content: {
+        .sheet(isPresented: $isOutputPhotoViewPresented, content: {
             OutputPhotoView(capturedImage: $capturedImage)
         })
     }
@@ -97,23 +105,49 @@ struct SettingCameraButton: View {
 }
 
 // カメラの表示映像の反転切り替えボタン
-struct OutputImageMirrorButton: View {
-    @State var cameraService: CameraService
-    var body: some View {
-        Button(action: {
-            cameraService.switchMirrorView()
-        }, label: {
-            Image(systemName: "photo.artframe")
-                .font(.system(size: 40))
-                .foregroundColor(.white)
-                .opacity(0.5)
-                .padding(.bottom)
-                .overlay(Image(systemName: "arrow.triangle.2.circlepath")
-                    .font(.system(size: 30))
+    struct OutputImageMirrorButton: View {
+        @State var cameraService: CameraService
+        @Binding var isShowingSettingMessage: Bool
+        @Binding var settingMessage: String
+
+        var body: some View {
+            Button(action: {
+                cameraService.switchMirrorView()
+                isShowingSettingMessage = true
+                settingMessage = "撮影写真を左右反転"
+            }, label: {
+                Image(systemName: "photo.artframe")
+                    .font(.system(size: 40))
                     .foregroundColor(.white)
-                    .padding(.bottom))
-        })
+                    .opacity(0.5)
+                    .padding(.bottom)
+                    .overlay(Image(systemName: "arrow.triangle.2.circlepath")
+                        .font(.system(size: 30))
+                        .foregroundColor(.white)
+                        .padding(.bottom))
+            })
+        }
     }
+
+// カメラ設定ボタンがクリックされたときに出現する View
+struct PopupSettingMessageView: View {
+    @Binding var isShowingSettingMessage: Bool
+    @Binding var settingMessage: String
+
+    var body: some View {
+        if isShowingSettingMessage
+        {
+            Text("\(settingMessage)")
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.black.opacity(0.7))
+                .cornerRadius(10)
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        isShowingSettingMessage = false
+                    }
+                }
+        }    }
 }
 
 // シャッターボタン
