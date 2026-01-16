@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A4127E8E2F18B82600644BFE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A4127E8D2F18B82600644BFE /* README.md */; };
+		A4127E912F18BD0300644BFE /* Documentation.docciOS_Camera.md in Resources */ = {isa = PBXBuildFile; fileRef = A4127E902F18BD0300644BFE /* Documentation.docciOS_Camera.md */; };
+		A4127E932F18BD1800644BFE /* DOCC_GUIDE.md in Resources */ = {isa = PBXBuildFile; fileRef = A4127E922F18BD1800644BFE /* DOCC_GUIDE.md */; };
 		A75318BE2BAB0920000DCB20 /* CountDownTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75318BD2BAB0920000DCB20 /* CountDownTimer.swift */; };
 		A75318C12BAB331A000DCB20 /* MonochromeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75318C02BAB331A000DCB20 /* MonochromeImage.swift */; };
 		A75318C32BAB3A3C000DCB20 /* CameraAppDocumentsDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75318C22BAB3A3C000DCB20 /* CameraAppDocumentsDirectory.swift */; };
@@ -21,6 +24,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A4127E8D2F18B82600644BFE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A4127E8F2F18B9EB00644BFE /* ARCHITECTURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ARCHITECTURE.md; sourceTree = "<group>"; };
+		A4127E902F18BD0300644BFE /* Documentation.docciOS_Camera.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Documentation.docciOS_Camera.md; sourceTree = "<group>"; };
+		A4127E922F18BD1800644BFE /* DOCC_GUIDE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = DOCC_GUIDE.md; sourceTree = "<group>"; };
+		A436CF4C2F17D4EF00A700DC /* .gitignore 2 */ = {isa = PBXFileReference; lastKnownFileType = text; path = ".gitignore 2"; sourceTree = "<group>"; };
 		A75318BD2BAB0920000DCB20 /* CountDownTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownTimer.swift; sourceTree = "<group>"; };
 		A75318C02BAB331A000DCB20 /* MonochromeImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonochromeImage.swift; sourceTree = "<group>"; };
 		A75318C22BAB3A3C000DCB20 /* CameraAppDocumentsDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAppDocumentsDirectory.swift; sourceTree = "<group>"; };
@@ -61,6 +69,8 @@
 			children = (
 				A7EDCBAB2BA5B93E000942FD /* iOS_Camera */,
 				A7EDCBAA2BA5B93E000942FD /* Products */,
+				A436CF4C2F17D4EF00A700DC /* .gitignore 2 */,
+				A4127E8F2F18B9EB00644BFE /* ARCHITECTURE.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -84,6 +94,9 @@
 				A7EDCBBF2BA5C664000942FD /* CustomCameraView.swift */,
 				A7EDCBC12BA5C903000942FD /*  OutputPhotoView.swift */,
 				A75318BF2BAB167D000DCB20 /* Model */,
+				A4127E8D2F18B82600644BFE /* README.md */,
+				A4127E902F18BD0300644BFE /* Documentation.docciOS_Camera.md */,
+				A4127E922F18BD1800644BFE /* DOCC_GUIDE.md */,
 			);
 			path = iOS_Camera;
 			sourceTree = "<group>";
@@ -154,7 +167,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4127E8E2F18B82600644BFE /* README.md in Resources */,
 				A7EDCBB42BA5B941000942FD /* Preview Assets.xcassets in Resources */,
+				A4127E932F18BD1800644BFE /* DOCC_GUIDE.md in Resources */,
+				A4127E912F18BD0300644BFE /* Documentation.docciOS_Camera.md in Resources */,
 				A7EDCBB12BA5B941000942FD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -308,7 +324,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iOS_Camera/Preview Content\"";
-				DEVELOPMENT_TEAM = P6ZVAJTAPB;
+				DEVELOPMENT_TEAM = 55KCZFRD2D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "撮影のためにカメラを使用します";
@@ -340,7 +356,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iOS_Camera/Preview Content\"";
-				DEVELOPMENT_TEAM = P6ZVAJTAPB;
+				DEVELOPMENT_TEAM = 55KCZFRD2D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "撮影のためにカメラを使用します";

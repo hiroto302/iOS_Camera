@@ -15,3 +15,8 @@ struct iOS_CameraApp: App {
         }
     }
 }
+
+#Preview {
+    CustomCameraView()
+}
+

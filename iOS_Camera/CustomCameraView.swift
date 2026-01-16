@@ -1,24 +1,73 @@
 import SwiftUI
 import AVFoundation
 
-// CameraView をカスタマイズして UI表示するための SwiftUIView
+/// カスタムカメラUIのメインビュー
+///
+/// CameraView をカスタマイズし、カメラ設定ボタン、シャッターボタン、カウントダウン表示などの
+/// UI コンポーネントを統合したメインのカメラ画面です。
+///
+/// ## 主な機能
+///
+/// - カメラプレビューの表示
+/// - カメラ設定の変更（フラッシュ、カメラ位置、フォーカス、ミラーリング）
+/// - カウントダウン撮影
+/// - 設定変更時のポップアップメッセージ
+/// - 撮影後の画像表示画面への遷移
+///
+/// ## UI 構成
+///
+/// ```
+/// ┌──────────────────────────┐
+/// │  [設定ボタン群]           │
+/// │                          │
+/// │    [カメラプレビュー]      │
+/// │                          │
+/// │  [シャッターボタン]        │
+/// └──────────────────────────┘
+/// ```
+///
+/// - Note: このビューは SwiftUI の宣言的な構文で構築されており、状態変更が自動的に UI に反映されます。
 struct CustomCameraView: View {
 
+    /// カメラサービスのインスタンス
+    ///
+    /// カメラセッションとデバイス制御を管理します。
     let cameraService = CameraService()
-    // カメラのフラッシュモード設定
+    
+    /// フラッシュモードの設定
+    ///
+    /// `.on` または `.off` を保持します。
     @State var flashMode: AVCaptureDevice.FlashMode = .off
-    // カメラのフォーカスモード設定
+    
+    /// 連続オートフォーカスモードが有効かどうか
+    ///
+    /// - `true`: 連続オートフォーカス (`.continuousAutoFocus`)
+    /// - `false`: オートフォーカス (`.autoFocus`)
     @State var isContinuousAutoFocus = true
 
-    // 撮影された画像を保持するための変数
+    /// 撮影された画像
+    ///
+    /// 撮影成功時に `UIImage` が格納されます。
     @State var capturedImage: UIImage?
-    // 出力画面に移動するか
+    
+    /// 出力画面（OutputPhotoView）を表示するかどうか
+    ///
+    /// `true` のときに撮影後の画像確認画面が表示されます。
     @State private var isOutputPhotoViewPresented = false
 
-    // カウントダウンタイマー 変数
+    /// カウントダウンタイマー
+    ///
+    /// 撮影前の3秒カウントダウンを管理します。
     @ObservedObject var countDownTimer = CountDownTimer()
-    // 設定ボタン押した時に出現するメッセージ変数
+    
+    /// 設定変更時のメッセージを表示するかどうか
+    ///
+    /// `true` のときにポップアップメッセージが表示されます。
     @State var isShowingSettingMessage: Bool = false
+    
+    /// 表示する設定メッセージの内容
+    ///
+    /// 各設定ボタンがタップされたときに更新されます。
     @State var settingMessage: String = ""
 
     var body: some View {
@@ -97,9 +146,27 @@ struct CustomCameraView: View {
     }
 }
 
-// 各カメラ設定ボタン
+/// カメラ設定ボタンコンポーネント
+///
+/// フラッシュ、カメラ切り替え、フォーカスモードなどの設定を変更するボタン。
+///
+/// - Parameters:
+///   - action: ボタンタップ時に実行されるアクション
+///   - imageName: SF Symbols の画像名
+///
+/// ## 使用例
+///
+/// ```swift
+/// SettingCameraButton(
+///     action: { cameraService.switchCameraPosition() },
+///     imageName: "camera.rotate.fill"
+/// )
+/// ```
 struct SettingCameraButton: View {
+    /// ボタンタップ時に実行されるアクション
     var action: () -> Void
+    
+    /// SF Symbols の画像名
     var imageName: String
 
     var body: some View {
@@ -112,34 +179,65 @@ struct SettingCameraButton: View {
     }
 }
 
-// カメラの表示映像の反転切り替えボタン
-    struct OutputImageMirrorButton: View {
-        @State var cameraService: CameraService
-        @Binding var isShowingSettingMessage: Bool
-        @Binding var settingMessage: String
-
-        var body: some View {
-            Button(action: {
-                cameraService.switchMirrorView()
-                isShowingSettingMessage = true
-                settingMessage = "撮影写真を左右反転"
-            }, label: {
-                Image(systemName: "photo.artframe")
-                    .font(.system(size: 40))
-                    .foregroundColor(.white)
-                    .opacity(0.5)
-                    .padding(.bottom)
-                    .overlay(Image(systemName: "arrow.triangle.2.circlepath")
-                        .font(.system(size: 30))
-                        .foregroundColor(.white)
-                        .padding(.bottom))
-            })
-        }
-    }
-
-// カメラ設定ボタンがクリックされたときに出現する View
-struct PopupSettingMessageView: View {
+/// カメラ映像のミラーリング切り替えボタン
+///
+/// 出力画像の左右反転を切り替えるための特殊なボタン。
+/// ボタンタップ時にポップアップメッセージを表示します。
+///
+/// - Parameters:
+///   - cameraService: カメラサービスのインスタンス
+///   - isShowingSettingMessage: メッセージ表示フラグ（バインディング）
+///   - settingMessage: メッセージ内容（バインディング）
+struct OutputImageMirrorButton: View {
+    /// カメラサービスのインスタンス
+    @State var cameraService: CameraService
+    
+    /// メッセージ表示フラグ
     @Binding var isShowingSettingMessage: Bool
+    
+    /// メッセージ内容
+    @Binding var settingMessage: String
+
+    var body: some View {
+        Button(action: {
+            cameraService.switchMirrorView()
+            isShowingSettingMessage = true
+            settingMessage = "撮影写真を左右反転"
+        }, label: {
+            Image(systemName: "photo.artframe")
+                .font(.system(size: 40))
+                .foregroundColor(.white)
+                .opacity(0.5)
+                .padding(.bottom)
+                .overlay(Image(systemName: "arrow.triangle.2.circlepath")
+                    .font(.system(size: 30))
+                    .foregroundColor(.white)
+                    .padding(.bottom))
+        })
+    }
+}
+
+/// カメラ設定変更時のポップアップメッセージビュー
+///
+/// 設定ボタンがタップされたときに一時的に表示されるメッセージ。
+/// 1秒後に自動的に非表示になります。
+///
+/// - Parameters:
+///   - isShowingSettingMessage: メッセージ表示フラグ（バインディング）
+///   - settingMessage: 表示するメッセージ内容（バインディング）
+///
+/// ## デザイン
+///
+/// - 背景: 半透明の黒 (opacity: 0.7)
+/// - テキスト色: 白
+/// - 角丸: 10pt
+///
+/// - Note: `onAppear` で自動的に1秒後に非表示になるタイマーが設定されます。
+struct PopupSettingMessageView: View {
+    /// メッセージ表示フラグ
+    @Binding var isShowingSettingMessage: Bool
+    
+    /// 表示するメッセージ内容
     @Binding var settingMessage: String
 
     var body: some View {
@@ -158,11 +256,35 @@ struct PopupSettingMessageView: View {
         }    }
 }
 
-// シャッターボタン
+/// シャッターボタンコンポーネント
+///
+/// カウントダウン中は数字を表示し、通常時は撮影ボタンを表示します。
+///
+/// ## 状態による表示の切り替え
+///
+/// - カウントダウン中: 白い円の中に青字でカウント数を表示
+/// - 通常時: 白い円形のシャッターボタン
+///
+/// ## 動作フロー
+///
+/// 1. ボタンタップ
+/// 2. 3秒カウントダウン開始
+/// 3. カウントダウン完了
+/// 4. 自動的に写真撮影
+///
+/// - Parameters:
+///   - countDownTimer: カウントダウンタイマー
+///   - cameraService: カメラサービス
+///   - flashMode: フラッシュモード（バインディング）
 struct ShutterButton: View {
 
+    /// カウントダウンタイマー
     @ObservedObject var countDownTimer: CountDownTimer
+    
+    /// カメラサービス
     @State var cameraService: CameraService
+    
+    /// フラッシュモード
     @Binding var flashMode: AVCaptureDevice.FlashMode
 
     var body: some View {
